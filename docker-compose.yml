@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: cosmic_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-Sh@ntaram2019}
+      MYSQL_DATABASE: ${DB_NAME:-cosmic_db}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: cosmic_web
+    command: .venv/bin/python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app:cached
+      - /app/.venv
+      - media_data:/app/data/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME:-cosmic_db}
+      - DB_USER=root
+      - DB_PASSWORD=${DB_PASSWORD:-Sh@ntaram2019}
+      - DB_PORT=3306
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-change-me-in-production}
+      - DEBUG=${DEBUG:-True}
+    depends_on:
+      db:
+        condition: service_healthy
+
+  prod:
+    build: .
+    container_name: cosmic_prod
+    command: .venv/bin/gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    volumes:
+      - media_data:/app/data/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=${DB_NAME:-cosmic_db}
+      - DB_USER=root
+      - DB_PASSWORD=${DB_PASSWORD:-Sh@ntaram2019}
+      - DB_PORT=3306
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=False
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - production
+
+volumes:
+  mysql_data:
+  media_data:

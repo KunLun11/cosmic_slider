@@ -1,0 +1,370 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Космическое агентство</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Slick Slider -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
+    <!-- Fancybox -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css"/>
+    
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --bg-header: #161b22;
+            --bg-section: #21262d;
+            --text-gray: #8b949e;
+            --accent: #ff4444;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .navbar {
+            background: var(--bg-header) !important;
+            padding: 1rem 0;
+            border-bottom: 1px solid #30363d;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .nav-link-custom {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 1px;
+            margin-right: 2rem;
+        }
+        
+        .nav-link-custom:hover {
+            color: var(--text-gray);
+        }
+        
+        .btn-login {
+            background: var(--accent);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        .hero {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .features {
+            padding: 3rem 0;
+        }
+        
+        .feature-img {
+            border-radius: 12px;
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            object-position: 70% center;
+        }
+        
+        .feature-item {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-icon {
+            height: 64px;
+            width: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-item p {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+        
+        .gallery-section {
+            background: var(--bg-section);
+            padding: 4rem 0;
+        }
+        
+        .gallery-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+        }
+        
+        .slider-for {
+            margin-bottom: 1rem;
+        }
+        
+        .slider-for img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .slider-wrapper {
+            position: relative;
+            padding: 0 60px;
+        }
+        
+        .slider-nav {
+            margin-top: 1rem;
+        }
+        
+        .slider-nav img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+        
+        .slider-nav .slick-current img {
+            opacity: 1;
+            border: 2px solid #fff;
+        }
+        
+        .slick-prev-nav, .slick-next-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .slick-prev-nav:hover, .slick-next-nav:hover {
+            background: #cc3333;
+        }
+        
+        .slick-prev-nav {
+            left: 0;
+        }
+        
+        .slick-next-nav {
+            right: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .slider-for img {
+                height: 300px;
+            }
+            
+            .slider-wrapper {
+                padding: 0;
+            }
+            
+            .slick-prev-nav, .slick-next-nav {
+                display: none !important;
+            }
+            
+            .feature-img {
+                margin-bottom: 2rem;
+            }
+            
+            .feature-icon {
+                height: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'images/nasa-logo.png' %}" alt="NASA">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto d-none d-md-flex">
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="#">ПРЕИМУЩЕСТВА</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="#">ФОТОГРАФИИ</a>
+                    </li>
+                </ul>
+                
+                <button class="btn btn-login text-white">ВХОД</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Космическое агентство</h1>
+            <p>Национальное управление по аэронавтике и исследованию космического пространства — ведомство, относящееся к федеральному правительству США и подчиняющееся непосредственно президенту США.</p>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Earth Image -->
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <img src="{% static 'images/earth.png' %}" alt="Earth" class="feature-img">
+                </div>
+                
+                <!-- Features Grid -->
+                <div class="col-lg-6">
+                    <div class="row">
+                        <!-- Первый ряд -->
+                        <div class="col-6 feature-item">
+                            <img src="{% static 'images/icons/shuttle.png' %}" alt="Shuttle" class="feature-icon">
+                            <p>Спейс шаттлы — пилотируемые корабли</p>
+                        </div>
+                        <div class="col-6 feature-item">
+                            <img src="{% static 'images/icons/telescope.png' %}" alt="Telescope" class="feature-icon">
+                            <p>Лучшее телескопическое оборудование</p>
+                        </div>
+                        
+                        <!-- Второй ряд -->
+                        <div class="col-6 feature-item">
+                            <img src="{% static 'images/icons/moon.png' %}" alt="Moon" class="feature-icon">
+                            <p>Исследовательские станции на Луне — шаг к новым открытиям!</p>
+                        </div>
+                        <div class="col-6 feature-item">
+                            <img src="{% static 'images/icons/medal.png' %}" alt="Medal" class="feature-icon">
+                            <p>Золотая медаль по научным исследованиям</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2>Фотографии</h2>
+            
+            <div class="slider-for">
+                {% for slide in slides %}
+                <div>
+                    <a href="{{ slide.image.url }}" data-fancybox="gallery" data-caption="{{ slide.title }}">
+                        <img src="{{ slide.image.url }}" alt="{{ slide.title }}">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="slider-wrapper">
+                <button class="slick-prev-nav">←</button>
+                <div class="slider-nav">
+                    {% for slide in slides %}
+                    <div class="px-2">
+                        <img src="{{ slide.image.url }}" alt="{{ slide.title }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="slick-next-nav">→</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.slider-for').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.slider-nav'
+            });
+            
+            $('.slider-nav').slick({
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                asNavFor: '.slider-for',
+                dots: false,
+                centerMode: true,
+                focusOnSelect: true,
+                arrows: false,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    }
+                ]
+            });
+            
+            $('.slick-prev-nav').click(function(){
+                $('.slider-nav').slick('slickPrev');
+            });
+            
+            $('.slick-next-nav').click(function(){
+                $('.slider-nav').slick('slickNext');
+            });
+            
+            Fancybox.bind("[data-fancybox]", {
+                Carousel: {
+                    infinite: true
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
